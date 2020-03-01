@@ -30,9 +30,9 @@ class ViewController: UIViewController {
         Question2.request(api, method: .get, successDataAction: { (data) in
             do {
                 let result = try JSONDecoder().decode(Result.self, from: data)
-                print(result.Id)
-                print(result.Name)
-                print(result.Desc)
+                print("Id = ", result.Id)
+                print("Name = ", result.Name)
+                print("Desc = ", result.Desc)
             } catch let jsonErr {
                 print("Fail to decode json", jsonErr)
             }
