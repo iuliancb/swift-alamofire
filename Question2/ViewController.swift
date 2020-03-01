@@ -10,11 +10,39 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let api = "https://capi.stage.9c9media.com/destinations/tsn_ios/platforms/iPad/contents/69585";
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
 
-
+    @IBAction func makeApiCall(_ sender: UIButton) {
+        parseJson(api: api)
+        decode(api: api)
+    }
+    func parseJson(api: String) {
+        Question2.request(api, method: .get, successJsonAction: { (json) in
+            print(json)
+        })
+    }
+    
+    func decode(api: String) {
+        Question2.request(api, method: .get, successDataAction: { (data) in
+            do {
+                let result = try JSONDecoder().decode(Result.self, from: data)
+                print(result.Id)
+                print(result.Name)
+                print(result.Desc)
+            } catch let jsonErr {
+                print("Fail to decode json", jsonErr)
+            }
+        })
+    }
 }
 
+class Result: Codable {
+    var Id: Int = 0
+    var Name: String = ""
+    var Desc: String = ""
+    
+}
